@@ -1,4 +1,4 @@
 {
-  "buildCommand": "npm run build",
+  "name": "my-portfolio",
   "pages_build_output_dir": "dist"
 }
