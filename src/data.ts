@@ -120,51 +120,61 @@ export const portfolioWorks = [
     id: 1,
     title: '世界哲学日题图',
     image: '/portfolio/世界哲学日题图.png',
+    category: 'content',
   },
   {
     id: 2,
     title: '亚洲铁塔论坛邀请函',
     image: '/portfolio/亚洲铁塔论坛邀请函-复制.png',
+    category: 'content',
   },
   {
     id: 3,
     title: '哲思社讲座海报',
     image: '/portfolio/哲思社讲座海报.jpg',
+    category: 'content',
   },
   {
     id: 4,
     title: '崇实赛艇招新易拉宝',
     image: '/portfolio/崇实赛艇招新易拉宝.png',
+    category: 'content',
   },
   {
     id: 5,
     title: '崇实赛艇招新海报',
     image: '/portfolio/崇实赛艇招新海报.png',
+    category: 'content',
   },
   {
     id: 6,
     title: '数据中心液冷海报',
     image: '/portfolio/数据中心液冷海报.png',
+    category: 'content',
   },
   {
     id: 7,
     title: '西交哲思社招新题图',
     image: '/portfolio/西交哲思社招新题图.png',
+    category: 'content',
   },
   {
     id: 8,
     title: '西交哲思社活动海报',
     image: '/portfolio/西交哲思社活动海报.png',
+    category: 'content',
   },
   {
     id: 9,
     title: '非洲铁塔论坛',
     image: '/portfolio/非洲铁塔论坛.png',
+    category: 'ai',
   },
   {
     id: 10,
     title: '非洲铁塔论坛邀请函',
     image: '/portfolio/非洲铁塔论坛邀请函.jpg',
+    category: 'ai',
   },
 ];
 

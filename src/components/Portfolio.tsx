@@ -2,10 +2,13 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X } from 'lucide-react';
 import { useAppContext } from '../App';
+import { translations } from '../i18n';
 import { portfolioWorks } from '../data';
 
 const Portfolio: React.FC = () => {
   const { isDark, language } = useAppContext();
+  const t = translations[language];
+  const [activeTab, setActiveTab] = useState<'content' | 'ai'>('content');
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
   const sectionRef = useRef<HTMLElement>(null);
@@ -19,11 +22,14 @@ const Portfolio: React.FC = () => {
   const tp = isDark ? 'text-gray-100' : 'text-gray-900';
   const ts = isDark ? 'text-gray-300' : 'text-gray-600';
 
-  const allWorks = [...portfolioWorks, ...portfolioWorks];
+  const filteredWorks = portfolioWorks.filter(w => w.category === activeTab);
+  const allWorks = [...filteredWorks, ...filteredWorks];
 
   useEffect(() => {
     const scrollContainer = scrollRef.current;
     if (!scrollContainer) return;
+
+    scrollContainer.scrollLeft = 0;
 
     const innerWrapper = scrollContainer.querySelector('.portfolio-scroll-inner') as HTMLElement;
     if (!innerWrapper) return;
@@ -31,7 +37,7 @@ const Portfolio: React.FC = () => {
     const getOriginalWidth = () => {
       const cards = innerWrapper.children;
       let width = 0;
-      const count = portfolioWorks.length;
+      const count = filteredWorks.length;
       for (let i = 0; i < count && i < cards.length; i++) {
         width += (cards[i] as HTMLElement).offsetWidth;
       }
@@ -67,7 +73,7 @@ const Portfolio: React.FC = () => {
       scrollContainer.removeEventListener('mouseenter', pauseScroll);
       scrollContainer.removeEventListener('mouseleave', resumeScroll);
     };
-  }, []);
+  }, [activeTab, filteredWorks.length]);
 
   const handleMouseDown = useCallback((e: MouseEvent) => {
     const container = scrollRef.current;
@@ -145,9 +151,9 @@ const Portfolio: React.FC = () => {
   const handleCardClick = useCallback((index: number) => {
     if (!isDraggingRef.current) {
       setIsZoomed(false);
-      setSelectedIndex(index % portfolioWorks.length);
+      setSelectedIndex(index % filteredWorks.length);
     }
-  }, []);
+  }, [filteredWorks.length]);
 
   const handleClose = useCallback(() => {
     setSelectedIndex(null);
@@ -172,11 +178,37 @@ const Portfolio: React.FC = () => {
           className="text-center mb-6"
         >
           <h2 className={`text-2xl md:text-3xl lg:text-4xl font-bold mb-4 ${tp}`}>
-            {language === 'zh' ? '作品展示' : 'Portfolio'}
+            {t.portfolio.title}
           </h2>
-          <div className="w-16 h-1 mx-auto rounded-full" style={{ backgroundColor: '#0052FF' }} />
+          <div className="w-16 h-1 mx-auto rounded-full mb-8" style={{ backgroundColor: '#0052FF' }} />
+
+          <div className={`inline-flex p-1 rounded-xl ${isDark ? 'bg-gray-800' : 'bg-gray-100'}`}>
+            <button
+              onClick={() => { setActiveTab('content'); setSelectedIndex(null); }}
+              className={`px-8 py-3 rounded-lg text-sm font-semibold transition-all duration-200 ${
+                activeTab === 'content'
+                  ? 'text-white shadow'
+                  : `${isDark ? 'text-gray-400 hover:text-gray-100' : 'text-gray-600 hover:text-gray-900'}`
+              }`}
+              style={activeTab === 'content' ? { backgroundColor: '#0052FF' } : {}}
+            >
+              {t.portfolio.contentTab}
+            </button>
+            <button
+              onClick={() => { setActiveTab('ai'); setSelectedIndex(null); }}
+              className={`px-8 py-3 rounded-lg text-sm font-semibold transition-all duration-200 ${
+                activeTab === 'ai'
+                  ? 'text-white shadow'
+                  : `${isDark ? 'text-gray-400 hover:text-gray-100' : 'text-gray-600 hover:text-gray-900'}`
+              }`}
+              style={activeTab === 'ai' ? { backgroundColor: '#0052FF' } : {}}
+            >
+              {t.portfolio.aiTab}
+            </button>
+          </div>
+
           <p className={`text-base mt-4 ${ts}`}>
-            {language === 'zh' ? '探索我的设计与创意作品' : 'Explore my design and creative works'}
+            {t.portfolio.subtitle}
           </p>
         </motion.div>
       </div>
@@ -203,7 +235,7 @@ const Portfolio: React.FC = () => {
           <div className="portfolio-scroll-inner flex gap-6 px-12 py-4">
             {allWorks.map((work, index) => (
               <div
-                key={`${work.id}-${index}`}
+                key={`${work.id}-${index}-${activeTab}`}
                 className={`flex-shrink-0 rounded-2xl overflow-hidden cursor-pointer ${
                   isDark ? 'bg-[#1e1e1e] border-[#333333]' : 'bg-white border-[#f0f0f0]'
                 } border`}
@@ -253,7 +285,7 @@ const Portfolio: React.FC = () => {
       </div>
 
       <AnimatePresence>
-        {selectedIndex !== null && (
+        {selectedIndex !== null && filteredWorks[selectedIndex] && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -274,7 +306,7 @@ const Portfolio: React.FC = () => {
             >
               <div className="absolute -top-12 right-0 flex items-center gap-4">
                 <span className="text-white/60 text-sm">
-                  {selectedIndex + 1} / {portfolioWorks.length}
+                  {selectedIndex + 1} / {filteredWorks.length}
                 </span>
                 <button
                   onClick={handleClose}
@@ -285,13 +317,13 @@ const Portfolio: React.FC = () => {
               </div>
 
               <h3 className="text-white text-lg font-semibold mb-4">
-                {portfolioWorks[selectedIndex].title}
+                {filteredWorks[selectedIndex].title}
               </h3>
 
               <div className="overflow-auto max-h-[75vh] w-full flex justify-center rounded-xl">
                 <img
-                  src={portfolioWorks[selectedIndex].image}
-                  alt={portfolioWorks[selectedIndex].title}
+                  src={filteredWorks[selectedIndex].image}
+                  alt={filteredWorks[selectedIndex].title}
                   className="max-w-full h-auto object-contain rounded-xl"
                 />
               </div>

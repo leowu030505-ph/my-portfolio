@@ -61,6 +61,12 @@ export interface Translations {
     performance: string;
     materials: string;
   };
+  portfolio: {
+    title: string;
+    contentTab: string;
+    aiTab: string;
+    subtitle: string;
+  };
   contact: {
     title: string;
     subtitle: string;
@@ -140,6 +146,12 @@ export const translations: Record<string, Translations> = {
       performance: '数据表现',
       materials: '物料展示',
     },
+    portfolio: {
+      title: '作品展示',
+      contentTab: '内容创作',
+      aiTab: 'AI运用',
+      subtitle: '探索我的设计与创意作品',
+    },
     contact: {
       title: '联系我',
       subtitle: '期待与您交流',
@@ -216,6 +228,12 @@ export const translations: Record<string, Translations> = {
       execution: 'Execution',
       performance: 'Performance',
       materials: 'Materials',
+    },
+    portfolio: {
+      title: 'Portfolio',
+      contentTab: 'Content Creation',
+      aiTab: 'AI Application',
+      subtitle: 'Explore my design and creative works',
     },
     contact: {
       title: 'Contact Me',
