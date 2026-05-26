@@ -176,6 +176,12 @@ export const portfolioWorks = [
     image: '/portfolio/非洲铁塔论坛邀请函.jpg',
     category: 'ai',
   },
+  {
+    id: 11,
+    title: 'ComfyUI工作流搭建',
+    image: '/AI运用/Comfyui工作流搭建.png',
+    category: 'ai',
+  },
 ];
 
 export const personalInfo = {
