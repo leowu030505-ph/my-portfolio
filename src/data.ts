@@ -166,18 +166,6 @@ export const portfolioWorks = [
   },
   {
     id: 9,
-    title: '非洲铁塔论坛',
-    image: '/portfolio/非洲铁塔论坛.png',
-    category: 'ai',
-  },
-  {
-    id: 10,
-    title: '非洲铁塔论坛邀请函',
-    image: '/portfolio/非洲铁塔论坛邀请函.jpg',
-    category: 'ai',
-  },
-  {
-    id: 11,
     title: 'ComfyUI工作流搭建',
     image: '/AI运用/Comfyui工作流搭建.png',
     category: 'ai',
